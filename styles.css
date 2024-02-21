@@ -1,0 +1,78 @@
+        /* Your styles from styles.css */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: "Inter", sans-serif !important;
+            color: #fff !important;
+
+            /* background */
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background: rgb(24,4,31);
+            background: linear-gradient(180deg, rgba(24,4,31,1) 0%, rgba(0,0,0,1) 100%);
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pill-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 3rem;
+            justify-items: center;
+            margin-top: 7rem;
+        }
+
+        .genre-pill {
+            cursor: pointer;
+            border: 2px solid transparent; /* Border initially transparent */
+            padding: 0px 4rem; /* Set padding for all pills */
+            width: 200px; /* Set fixed width */
+            height: 100px; /* Set fixed height */
+            
+            border-radius: 20px;
+            border: solid 5px rgba(226, 226, 226, 0.5); /* Grey border */
+
+            font-size: 32px; 
+            font-weight: 900;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .genre-pill.active {
+            border-color: #28a745; /* Green border when active */
+        }
+
+
+        .button-block {
+            margin-top: 2rem;
+            margin-right: 2rem;
+            align-self: flex-end;
+        }
+
+        .button-block button {
+            font-size: 32px;
+            font-weight: 900;
+            background-color: transparent;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
