@@ -87,9 +87,18 @@ margin-top: 7rem; /* More margin between the slider and the icons */
 margin-top: 25rem; /* More margin between the slider and the icons */
 }
 
+/* progress bar */
 
-#playback-line {
-width: calc(100% - 40px); /* Set the width to span fully with margin on both sides */
-background-color: #fff; /* Set background color to white */
-border: 1px solid #000; /* Set border to 1px black solid */
+.progress-bar {
+    width: 100%;
+    height: 2px;
+    background-color: #CCCCCC; /* Background color of the progress bar */
+    margin-top: 10px; /* Adjust as needed */
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+}
+
+.progress {
+    height: 100%;
+    background-color: white; /* Color of the progress indicator */
+    pointer-events: none; /* Prevent the progress bar from intercepting mouse events */
 }
