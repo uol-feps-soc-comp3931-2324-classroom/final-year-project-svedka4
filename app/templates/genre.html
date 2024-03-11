@@ -7,11 +7,11 @@
         <h3 style="font-size: 32px; font-weight: 900;">CHOOSE UP TO 5 GENRES</h3>
     </div>
     
-    <form id="genreForm" action="{{ url_for('mood') }}" method="POST" name="genre-form">
+    <form id="genreForm" action="{{ url_for('genre') }}" method="POST" name="genre-form">
         
         <div class="pill-container">
             {% for genre in genres %}
-                <span class="genre-pill">{{ genre }}</span>
+                <radio name="{{ genre }}" class="genre-pill">{{ genre }}</radio>
             {% endfor %}
         </div>
 

@@ -2,11 +2,15 @@ from flask import Flask, render_template, redirect, url_for, request
 from app import app
 import os
 
-@app.route('/')
+@app.route('/genre')
 def genre():
     title = 'Music Player | Preferences'
     genres = ['Rock', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'Classical', 'Electronic', 'Folk', 'Blues']
-    return render_template('genre.html', genres=genres, title=title)
+    if request.method == 'POST':
+        selected_genre = request.form.getlist('genre')
+        return redirect(url_for('mood', genre=selected_genre,))
+
+    return render_template('genre.html', title=title, genres=genres)
 
 @app.route('/mood')
 def mood():
