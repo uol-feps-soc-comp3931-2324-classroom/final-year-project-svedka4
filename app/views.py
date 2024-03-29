@@ -1,22 +1,30 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, session
 from app import app
 import os
 
-@app.route('/genre')
+@app.route('/genre', methods=['GET', 'POST'])
 def genre():
     title = 'Music Player | Preferences'
     genres = ['Rock', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'Classical', 'Electronic', 'Folk', 'Blues']
     if request.method == 'POST':
-        selected_genre = request.form.getlist('genre')
-        return redirect(url_for('mood', genre=selected_genre,))
+        selected_genres = request.form.getlist('genre')
+        session['selected_genres'] = selected_genres
+        return redirect(url_for('mood', genre=selected_genres,))
 
     return render_template('genre.html', title=title, genres=genres)
 
-@app.route('/mood')
+@app.route('/mood', methods=['GET', 'POST'])
 def mood():
     title = 'Music Player | Mood'
     moods = ['Nervous', 'Angry', 'Annoyed', 'Excited', 'Happy', 'Pleased', 'Relaxed', 'Peaceful', 'Calm', 'Sad', 'Bored', 'Sleepy']
-    # selected_genre = request.form.getlist('genre')
+    print(session['selected_genres'])
+    if request.method == 'POST':
+        selected_moods = request.form.getlist('mood')
+        print(selected_moods)
+        session['selected_moods'] = selected_moods
+        print(session['selected_moods'])
+        return redirect(url_for('player', genre=session['selected_genres'], mood=selected_moods))
+    
     return render_template('mood.html', moods=moods, title=title)
 
 @app.route('/player')
