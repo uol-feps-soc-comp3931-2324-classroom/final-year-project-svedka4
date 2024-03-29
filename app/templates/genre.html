@@ -11,7 +11,9 @@
         
         <div class="pill-container">
             {% for genre in genres %}
-                <radio name="{{ genre }}" class="genre-pill">{{ genre }}</radio>
+                <label>
+                    <input type="checkbox" name="{{ genre }}" class="genre-pill">{{ genre }}</input>
+                </label>
             {% endfor %}
         </div>
 
@@ -27,12 +29,22 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const maxOptions = 5;
         const pills = document.querySelectorAll('.genre-pill');
+        let selectedOptions = 0;
 
-        pills.forEach(function(pill) {
-            pill.addEventListener('click', function() {
-                // Toggle active class on click
-                pill.classList.toggle('active');
+        pills.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    if (selectedOptions >= maxOptions) {
+                        this.checked = false;
+                        return;
+                    } else {
+                        selectedOptions++;
+                    }
+                } else {
+                    selectedOptions--;
+                }
             });
         });
     });
