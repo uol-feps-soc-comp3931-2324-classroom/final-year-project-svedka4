@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.secret_key = 'super_duper_trooper_crazy_secret_key_to_make_it_a_little_bit_more_secure_and_a_little_bit_more_longer_and_a_little_bit_more_complex_and_a_little_bit_more_secret_and_a_little_bit_more_crazy_and_a_little_bit_more_trooper_and_a_little_bit_more_super_and_a_little_bit_more_duper_and_a_little_bit_more_super_duper_trooper_crazy_secret'
 app.config.from_object('config')
 db = SQLAlchemy(app)
 
