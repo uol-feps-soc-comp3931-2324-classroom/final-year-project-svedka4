@@ -7,11 +7,7 @@ csv_file = 'app/static/assets/dataset.csv'
 
 song_info = {}
 
-
-user_selected_genres = []
-user_selected_weights = []
-
-discovered_genres = []
+played_songs = {}
 
 def read_csv():
     with open(csv_file, 'r') as f:
@@ -27,12 +23,32 @@ def read_csv():
             sub_genres = genres[1:]
 
             song_info[row[0]] = {
+                'song_id': row[0],
                 'main_genre': main_genre,
                 'sub_genres': sub_genres,
                 'arousal': float(row[2]),
                 'valence': float(row[3])
             }
 
+
+emotion_mapping = {
+    # valence - X, arousal - Y
+    'excited': (0.357357, 0.744744),
+    'happy': (0.555555, 0.540540),
+    'pleased': (0.738738, 0.282282),
+
+    'annoyed': (-0.390390, 0.744744),
+    'angry': (-0.660660, 0.519519),
+    'nervous': (-0.726726, 0.264264),
+
+    'sad': (-0.702702, -0.384384),
+    'bored': (-0.462462, -0.603603),
+    'sleepy': (-0.228228, -0.801801),
+
+    'relaxed': (0.705705, -0.0348348),
+    'peaceful': (0.549549, -0.549549),
+    'calm': (0.291291, -0.732732)
+}
 
 # The module for picking genre. (Not finshed yet, could do with adding the serendipity for discovered genres)
 def recommend_song(audio_files, valid_genres):
@@ -41,30 +57,38 @@ def recommend_song(audio_files, valid_genres):
     if song_info == {}:
         read_csv()
 
-    #Genre
-    user_selected_weights = []
-
-    # Get the selected genres from the user
-    selected_genres = session['selected_genres']
-    selected_genre_count = len(selected_genres)
-
-    # Weigh the genres equally based on the users selection.
-    for genre in valid_genres:
-        if genre in selected_genres:
-            user_selected_weights.append(1/selected_genre_count)  # Equal weight for each selected genre (fe. 0.5 for 2 genres)
-        else:
-            user_selected_weights.append(0) # No weight for non-selected genres (no chance)
+    
+    user_selected_weights = session['user_selected_weights']
 
     # Pick a random genre based on the users selection
     picked_genre = random.choices(valid_genres, weights=user_selected_weights)[0] # Pick a random genre based on the weights
 
     # Filter the audio files based on the picked genre
-    filtered_genre_audio_files = [file for file in audio_files if picked_genre == song_info[file[:-4]]['main_genre']]
+    # if song played - don't play it again
+
+    filtered_genre_audio_files = [] 
+    
+    for file in audio_files:         
+        if picked_genre == song_info[file[:-4]]['main_genre'] and file not in played_songs:
+            filtered_genre_audio_files.append(file)
+
+    users_mood = session['ratings_impact_mood']
+    
+    
+    print("Users mood: ", users_mood)
+    closest_mood = None 
+    closest_distance = -10000000 
+
+    for mood in emotion_mapping:
+        cosine_similarity = (users_mood[0] * emotion_mapping[mood][0] + users_mood[1] * emotion_mapping[mood][1]) / ((users_mood[0]**2 + users_mood[1]**2)**0.5 * (emotion_mapping[mood][0]**2 + emotion_mapping[mood][1]**2)**0.5)
+        # distance = (users_mood[0] - emotion_mapping[mood][0])**2 + (users_mood[1] - emotion_mapping[mood][1])**2
+        if cosine_similarity > closest_distance:
+            closest_distance = cosine_similarity
+            closest_mood = mood
+
+    print("Closest mood: ", closest_mood)
 
 
-    # Calculate the users mood
-    users_mood = mood_calc.mood_calc()
-    session['users_mood'] = users_mood
 
     filtered_mood_audio_files = []
     
@@ -78,8 +102,9 @@ def recommend_song(audio_files, valid_genres):
 
     accurate_recommendation = random.choice(filtered_mood_audio_files)
 
-    serendipitous_recommendation = serendipity()
+    played_songs[accurate_recommendation] = True
+    print("Playing song: ", accurate_recommendation)
 
-    return serendipitous_recommendation
+    return accurate_recommendation, song_info[accurate_recommendation[:-4]]
 
 

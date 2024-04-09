@@ -3,7 +3,7 @@
     <div class="container">
 
         <div class="text-block">
-            <h1 style="font-size: 42px; font-weight: 900; margin-bottom: 3rem;">Recommendation?</h1>
+            <h1 style="font-size: 42px; font-weight: 900; margin-bottom: 3rem;">Did you like this recommendation?</h1>
         </div>
         
         <form id="ratingForm" action="{{ url_for('submit_ratings') }}" method="post">
@@ -80,7 +80,7 @@
 
                 audioPlayer.src = "{{ url_for('static', filename='assets/excerpts/') }}" + recommendedSong;
                 audioPlayer.play();
-            }, 2000); // 2000 milliseconds = 2 seconds
+            }, 500); // 1000 milliseconds = 1 seconds
         });
     </script>
 
