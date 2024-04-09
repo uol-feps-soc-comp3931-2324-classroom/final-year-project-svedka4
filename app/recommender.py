@@ -1,6 +1,7 @@
 from flask import session
 import csv
 import random
+from app import mood_calc, serendipity
 
 csv_file = 'app/static/assets/dataset.csv'
 
@@ -34,12 +35,13 @@ def read_csv():
 
 
 # The module for picking genre. (Not finshed yet, could do with adding the serendipity for discovered genres)
-def pick_song_genre(audio_files, valid_genres):
+def recommend_song(audio_files, valid_genres):
     
     # Read the CSV
     if song_info == {}:
         read_csv()
 
+    #Genre
     user_selected_weights = []
 
     # Get the selected genres from the user
@@ -49,21 +51,35 @@ def pick_song_genre(audio_files, valid_genres):
     # Weigh the genres equally based on the users selection.
     for genre in valid_genres:
         if genre in selected_genres:
-            user_selected_weights.append(1/selected_genre_count)
+            user_selected_weights.append(1/selected_genre_count)  # Equal weight for each selected genre (fe. 0.5 for 2 genres)
         else:
-            user_selected_weights.append(0)
+            user_selected_weights.append(0) # No weight for non-selected genres (no chance)
 
     # Pick a random genre based on the users selection
-    picked_genre = random.choices(valid_genres, weights=user_selected_weights, k=1)[0]
- 
+    picked_genre = random.choices(valid_genres, weights=user_selected_weights)[0] # Pick a random genre based on the weights
+
     # Filter the audio files based on the picked genre
-    filtered_audio_files = [file for file in audio_files if picked_genre == song_info[file[:-4]]['main_genre']]
+    filtered_genre_audio_files = [file for file in audio_files if picked_genre == song_info[file[:-4]]['main_genre']]
 
 
-    random_song = random.choice(filtered_audio_files)
-    print('Random song:', random_song)
-    print(song_info[random_song[:-4]])
+    # Calculate the users mood
+    users_mood = mood_calc.mood_calc()
+    session['users_mood'] = users_mood
 
-    return filtered_audio_files
+    filtered_mood_audio_files = []
+    
+    for audio_file in filtered_genre_audio_files:
+        song = song_info[audio_file[:-4]]
+        cosine_similarity = (users_mood[0] * song['valence'] + users_mood[1] * song['arousal']) / ((users_mood[0]**2 + users_mood[1]**2)**0.5 * (song['valence']**2 + song['arousal']**2)**0.5)
+        # filter the audio files based on the cosine similarity
+        if cosine_similarity > 0.6:
+        # if distance < 0.2: 
+            filtered_mood_audio_files.append(audio_file)
+
+    accurate_recommendation = random.choice(filtered_mood_audio_files)
+
+    serendipitous_recommendation = serendipity()
+
+    return serendipitous_recommendation
 
 
