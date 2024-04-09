@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from app import app, recommender, ratings, mood_calc
-import os
+import os, uuid
 
 valid_genres = ['Rock','Folk', 'Blues', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'SoulRB', 'Classical', 'Instrumental', 'Electronic', 'Experimental', 'International', 'Spoken']
 
@@ -8,6 +8,9 @@ valid_genres = ['Rock','Folk', 'Blues', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'So
 def genre():
     title = 'Music Player | Preferences'
 
+    session['user_session_id'] = str(uuid.uuid4())
+    print("Session ID: ", session['user_session_id'])
+    
     if request.method == 'POST':
         selected_genres = request.form.getlist('genre')
 

@@ -1,7 +1,7 @@
 from flask import session
 import csv
 import random
-from app import mood_calc, serendipity
+from app import mood_calc
 
 csv_file = 'app/static/assets/dataset.csv'
 
