@@ -29,11 +29,17 @@ def user_ratings(valid_genres):
     # Keep track of the impact of ratings on users genre preferences; store only discovered genres
     impact_genre = session['ratings_impact_genre']
 
+    # if a user likes a song - give the main genre weight 
+    for i in range(len(valid_genres)):
+        if valid_genres[i] == current_song['main_genre']:
+            impact_genre[i] += ratings[user_ratings] * 0.25
+            impact_genre[i] = max(0, impact_genre[i])
+
     # if a liked song has subgenres - give them weight
     if len(current_song['sub_genres']) > 0:
         for i in range(len(valid_genres)):
             if valid_genres[i] in current_song['sub_genres']:
-                impact_genre[i] += ratings[user_ratings] * 0.5
+                impact_genre[i] += ratings[user_ratings] * 0.25
                 impact_genre[i] = max(0, impact_genre[i])
 
     session['ratings_impact_genre'] = impact_genre
@@ -42,4 +48,9 @@ def user_ratings(valid_genres):
 
     for i in range(len(impact_genre)):
         normalized_ratings_impact_genre.append(impact_genre[i] / total)
+
+    print("Current song: ", current_song)
+        
+    print("Normalized:", normalized_ratings_impact_genre)
+    session['ratings_impact_genre_normalized'] = normalized_ratings_impact_genre
 

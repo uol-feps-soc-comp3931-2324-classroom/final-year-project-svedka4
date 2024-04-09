@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from app import app, recommender, ratings, mood_calc
 import os
 
-valid_genres = ['Rock','Folk', 'Blues', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'SoulRnB', 'Classical', 'Instrumental', 'Electronic', 'Experimental', 'International', 'Spoken']
+valid_genres = ['Rock','Folk', 'Blues', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'SoulRB', 'Classical', 'Instrumental', 'Electronic', 'Experimental', 'International', 'Spoken']
 
 @app.route('/genre', methods=['GET', 'POST'])
 def genre():
@@ -26,7 +26,7 @@ def genre():
 
         session['user_selected_weights'] = user_selected_weights
         session['ratings_impact_genre'] = user_selected_weights
-
+        session['ratings_impact_genre_normalized'] = user_selected_weights
         return redirect(url_for('mood', genre=selected_genres,))
 
     return render_template('genre.html', title=title, genres=valid_genres)

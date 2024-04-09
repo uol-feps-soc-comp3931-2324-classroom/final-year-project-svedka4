@@ -58,35 +58,44 @@ def recommend_song(audio_files, valid_genres):
         read_csv()
 
     
-    user_selected_weights = session['user_selected_weights']
+    user_selected_weights = session['ratings_impact_genre_normalized']
 
-    # Pick a random genre based on the users selection
-    picked_genre = random.choices(valid_genres, weights=user_selected_weights)[0] # Pick a random genre based on the weights
+    found_song = False
+    accurate_recommendation = None
 
-    # Filter the audio files based on the picked genre
-    # if song played - don't play it again
+    while not found_song:
+        print("Finding song")
+        # Pick a random genre based on the users selection
+        picked_genre = random.choices(valid_genres, weights=user_selected_weights)[0] # Pick a random genre based on the weights
 
-    filtered_genre_audio_files = [] 
-    
-    for file in audio_files:         
-        if picked_genre == song_info[file[:-4]]['main_genre'] and file not in played_songs:
-            filtered_genre_audio_files.append(file)
+        # Filter the audio files based on the picked genre
+        # if song played - don't play it again
 
-    users_mood = session['ratings_impact_mood']
+        filtered_genre_audio_files = [] 
+        
+        for file in audio_files:         
+            if picked_genre == song_info[file[:-4]]['main_genre'] and file not in played_songs:
+                filtered_genre_audio_files.append(file)
 
-    filtered_mood_audio_files = []
-    
-    for audio_file in filtered_genre_audio_files:
-        song = song_info[audio_file[:-4]]
-        cosine_similarity = (users_mood[0] * song['valence'] + users_mood[1] * song['arousal']) / ((users_mood[0]**2 + users_mood[1]**2)**0.5 * (song['valence']**2 + song['arousal']**2)**0.5)
-        # filter the audio files based on the cosine similarity
-        if cosine_similarity > 0.6:
-        # if distance < 0.2: 
-            filtered_mood_audio_files.append(audio_file)
+        users_mood = session['ratings_impact_mood']
 
-    accurate_recommendation = random.choice(filtered_mood_audio_files)
+        filtered_mood_audio_files = []
+        
+        for audio_file in filtered_genre_audio_files:
+            song = song_info[audio_file[:-4]]
+            cosine_similarity = (users_mood[0] * song['valence'] + users_mood[1] * song['arousal']) / ((users_mood[0]**2 + users_mood[1]**2)**0.5 * (song['valence']**2 + song['arousal']**2)**0.5)
+            # filter the audio files based on the cosine similarity
+            if cosine_similarity > 0.6:
+            # if distance < 0.2: 
+                filtered_mood_audio_files.append(audio_file)
 
-    played_songs[accurate_recommendation] = True
+            if len(filtered_mood_audio_files) > 0:
+                found_song = True
+                accurate_recommendation = random.choice(filtered_mood_audio_files)
+                break
+
+
+        played_songs[accurate_recommendation] = True
 
     return accurate_recommendation, song_info[accurate_recommendation[:-4]]
 
