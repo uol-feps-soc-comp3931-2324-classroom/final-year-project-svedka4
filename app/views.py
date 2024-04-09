@@ -22,9 +22,7 @@ def mood():
 
     if request.method == 'POST':
         selected_moods = request.form.getlist('mood')
-
         session['selected_moods'] = selected_moods
-  
         return redirect(url_for('player', genre=session['selected_genres'], mood=selected_moods))
     
     return render_template('mood.html', moods=moods, title=title)
@@ -36,10 +34,7 @@ def player():
 
     audio_files = [file for file in os.listdir(excerpts_dir) if file.endswith('.mp3')]
 
-
-
-
     #  Recommender system
-    recommender.pick_song_genre(audio_files, valid_genres)
+    recommended_song = recommender.recommend_song(audio_files, valid_genres)
 
-    return render_template('player.html', title=title, audio_files=audio_files)
+    return render_template('player.html', title=title, recommended_song=recommended_song)
