@@ -73,22 +73,6 @@ def recommend_song(audio_files, valid_genres):
             filtered_genre_audio_files.append(file)
 
     users_mood = session['ratings_impact_mood']
-    
-    
-    print("Users mood: ", users_mood)
-    closest_mood = None 
-    closest_distance = -10000000 
-
-    for mood in emotion_mapping:
-        cosine_similarity = (users_mood[0] * emotion_mapping[mood][0] + users_mood[1] * emotion_mapping[mood][1]) / ((users_mood[0]**2 + users_mood[1]**2)**0.5 * (emotion_mapping[mood][0]**2 + emotion_mapping[mood][1]**2)**0.5)
-        # distance = (users_mood[0] - emotion_mapping[mood][0])**2 + (users_mood[1] - emotion_mapping[mood][1])**2
-        if cosine_similarity > closest_distance:
-            closest_distance = cosine_similarity
-            closest_mood = mood
-
-    print("Closest mood: ", closest_mood)
-
-
 
     filtered_mood_audio_files = []
     
@@ -103,7 +87,6 @@ def recommend_song(audio_files, valid_genres):
     accurate_recommendation = random.choice(filtered_mood_audio_files)
 
     played_songs[accurate_recommendation] = True
-    print("Playing song: ", accurate_recommendation)
 
     return accurate_recommendation, song_info[accurate_recommendation[:-4]]
 

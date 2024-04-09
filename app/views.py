@@ -68,5 +68,5 @@ def submit_ratings():
     rating = request.form['rating']
 
     session['rating'] = rating
-    ratings.user_ratings()
+    ratings.user_ratings(valid_genres)
     return redirect(url_for('player'))

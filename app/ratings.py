@@ -9,12 +9,9 @@ ratings = {
     'hate': -1
 }
 
-def user_ratings():
+def user_ratings(valid_genres):
     current_song = session['curr_song_info']
     user_ratings = session['rating']
-    print(current_song, user_ratings)
-
-    print(session['ratings_impact_genre'])
 
     # Keep track of the impact of ratings on users mood
     impact_mood = session['ratings_impact_mood']
@@ -29,15 +26,20 @@ def user_ratings():
     new_impact_mood = (impact_mood[0] + push[0], impact_mood[1] + push[1])
     session['ratings_impact_mood'] = new_impact_mood
 
-    print("Song Valence: ", current_song['valence'], "Song Arousal: ", current_song['arousal'])
-    print("Users Valence", impact_mood[0], "Users Arousal", impact_mood[1])
-    print("New Valence", new_impact_mood[0], "New Arousal", new_impact_mood[1])
+    # Keep track of the impact of ratings on users genre preferences; store only discovered genres
+    impact_genre = session['ratings_impact_genre']
 
-    # if a user loves - give same weight to the genre as initially chosen genres
-    # if a user likes - give 0.5 weight to the genre
-    # if a user is neutral or dislikes or hates a recommendation - give 0 weight to the genre
+    # if a liked song has subgenres - give them weight
+    if len(current_song['sub_genres']) > 0:
+        for i in range(len(valid_genres)):
+            if valid_genres[i] in current_song['sub_genres']:
+                impact_genre[i] += ratings[user_ratings] * 0.5
+                impact_genre[i] = max(0, impact_genre[i])
 
+    session['ratings_impact_genre'] = impact_genre
+    normalized_ratings_impact_genre = []
+    total = sum(impact_genre)
 
-
-
+    for i in range(len(impact_genre)):
+        normalized_ratings_impact_genre.append(impact_genre[i] / total)
 
