@@ -73,14 +73,9 @@
 
             // Function to play a random audio file after a delay seconds
             setTimeout(function() {
-                var audioFiles = [
-                    {% for audio_file in audio_files %}
-                        "{{ audio_file }}",
-                    {% endfor %}
-                ];
-                var randomIndex = Math.floor(Math.random() * audioFiles.length);
-                var randomAudioFile = audioFiles[randomIndex];
-                audioPlayer.src = "{{ url_for('static', filename='assets/excerpts/') }}" + randomAudioFile;
+                var recommendedSong = "{{ recommended_song }}";
+
+                audioPlayer.src = "{{ url_for('static', filename='assets/excerpts/') }}" + recommendedSong;
                 audioPlayer.play();
             }, 2000); // 2000 milliseconds = 2 seconds
         });
