@@ -35,6 +35,15 @@ def player():
     audio_files = [file for file in os.listdir(excerpts_dir) if file.endswith('.mp3')]
 
     #  Recommender system
-    recommended_song = recommender.recommend_song(audio_files, valid_genres)
+    recommended_song, song_info = recommender.recommend_song(audio_files, valid_genres)
+
+    session['curr_song_info'] = song_info
 
     return render_template('player.html', title=title, recommended_song=recommended_song)
+
+@app.route('/submit_ratings', methods=['POST'])
+def submit_ratings():
+    rating = request.form['rating']
+    print(rating, session['curr_song_info'])
+    session['rating'] = rating
+    return redirect(url_for('player'))

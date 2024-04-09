@@ -6,13 +6,16 @@
             <h1 style="font-size: 42px; font-weight: 900; margin-bottom: 3rem;">Recommendation?</h1>
         </div>
         
-        <div class="icon-container">
-            <img src="{{ url_for('static', filename='assets/img/love.svg') }}" alt="laughing face">
-            <img src="{{ url_for('static', filename='assets/img/happy.svg') }}" alt="smiling face">
-            <img src="{{ url_for('static', filename='assets/img/neutral.svg') }}" alt="neutral face">
-            <img src="{{ url_for('static', filename='assets/img/sad.svg') }}" alt="sad face">
-            <img src="{{ url_for('static', filename='assets/img/angry.svg') }}" alt="angry face">
-        </div>
+        <form id="ratingForm" action="{{ url_for('submit_ratings') }}" method="post">
+            <div class="icon-container">
+                <button type="submit" name="rating" value="love"><img src="{{ url_for('static', filename='assets/img/love.svg') }}" alt="extatic face"></button>
+                <button type="submit" name="rating" value="like"><img src="{{ url_for('static', filename='assets/img/happy.svg') }}" alt="smiling face"></button>
+                <button type="submit" name="rating" value="neutral"><img src="{{ url_for('static', filename='assets/img/neutral.svg') }}" alt="neutral face"></button>
+                <button type="submit" name="rating" value="dislike"><img src="{{ url_for('static', filename='assets/img/sad.svg') }}" alt="sad face"></button>
+                <button type="submit" name="rating" value="hate"><img src="{{ url_for('static', filename='assets/img/angry.svg') }}" alt="angry face"></button>
+            </div>
+        </form>
+            
 
         <div class="music-player-block">
             <!-- AUDIO PLAYER -->
