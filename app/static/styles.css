@@ -39,6 +39,12 @@ justify-items: center;
 margin-top: 7rem;
 }
 
+input[type="checkbox" i] {
+    accent-color: blueviolet;
+
+}
+
+
 /* .genre-pill label {
 cursor: pointer;
 border: 2px solid transparent; 
