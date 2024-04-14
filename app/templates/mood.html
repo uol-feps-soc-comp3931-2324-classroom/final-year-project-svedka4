@@ -4,17 +4,17 @@
 
     <div class="text-block">
         <!-- transparency issue -->
-        <h1 style="font-size: 42px; font-weight: 900; margin-bottom: 3rem;">Choose a mood that reflects how you feel</h1>
-        <h3 style="font-size: 32px; font-weight: 900;">Your selection will guide our music recommendations to match your preferences and current mood.</h3>
-        <h3 style="font-size: 32px; font-weight: 900;">SELECT UP TO 2</h3>
+        <h1 style="font-size: 42px; font-weight: 900; margin-bottom: 3rem;">HOW DO YOU FEEL CURRENTLY?</h1>
+        <h3 style="font-size: 32px; font-weight: 900;">SELECT UP TO <span style="color: gold;">2</span> ADJECTIVES</h3>
     </div>
     
     <form id="moodForm" action="{{ url_for('mood') }}" method="POST" name="mood-form">
         <div class="pill-container">
             {% for mood in moods %}
-                <label>
-                    <input type="checkbox" name="mood" value="{{ mood }}" class="genre-pill">{{ mood }}</input>
-                </label>
+                <div>
+                    <input type="checkbox" name="mood" value="{{ mood }}" class="genre-pill"></input>
+                    <label for="{{ mood }}">{{ mood }}</label>
+                </div>
             {% endfor %}
         </div>
     

@@ -4,16 +4,17 @@
 
     <div class="text-block">
         <h1 style="font-size: 42px; font-weight: 900; margin-bottom: 3rem;">TELL US A BIT ABOUT YOUR TASTE IN MUSIC</h1>
-        <h3 style="font-size: 32px; font-weight: 900;">CHOOSE UP TO 5 GENRES</h3>
+        <h3 style="font-size: 32px; font-weight: 900;">CHOOSE UP TO <span style="color: gold;">5</span> GENRES</h3>
     </div>
     
     <form id="genreForm" action="{{ url_for('genre') }}" method="POST" name="genre-form">
         
         <div class="pill-container">
             {% for genre in genres %}
-                <label>
-                    <input type="checkbox" name="genre" value="{{ genre }}" class="genre-pill">{{ genre }}</input>
-                </label>
+            <div>
+                <input type="checkbox" name="genre" value="{{ genre }}" class="genre-pill"></input>
+                <label for="{{ genre }}">{{ genre }}</label>
+            </div>
             {% endfor %}
         </div>
 

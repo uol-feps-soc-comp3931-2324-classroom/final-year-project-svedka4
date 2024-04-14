@@ -41,36 +41,12 @@ margin-top: 7rem;
 
 input[type="checkbox" i] {
     accent-color: blueviolet;
-
+    transform: scale(2);
 }
-
-
-/* .genre-pill label {
-cursor: pointer;
-border: 2px solid transparent; 
-padding: 0px 4rem; 
-width: 200px; 
-height: 100px;
-
-border-radius: 20px;
-border: solid 5px rgba(226, 226, 226, 0.5); 
-
-font-size: 32px; 
-font-weight: 900;
-
-display: flex;
-justify-content: center;
-align-items: center;
-} */
-
-/* .genre-pill input[type="checkbox"] {
-    display: none;
-} */
-
-/* .genre-pill input[type="checkbox"]:checked + label {
-    border-color: #28a745; 
-} */
-
+label {
+    font-size: 1.5rem;
+    padding-left: 1rem;
+}
 
 .button-block {
 margin-top: 2rem;
@@ -114,12 +90,10 @@ margin-top: 25rem; /* More margin between the slider and the icons */
 }
 
 /* music player playPauseButton */
-#playPauseBtn {
-    background: none;
+.playPauseBtn {
+    background-color: Transparent;
+    background-repeat:no-repeat;
     border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    outline: none; 
-    margin-bottom: 2rem;
+    cursor:pointer;
+    overflow: hidden; 
 }
