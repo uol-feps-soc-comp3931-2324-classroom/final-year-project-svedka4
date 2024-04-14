@@ -90,10 +90,16 @@ margin-top: 25rem; /* More margin between the slider and the icons */
 }
 
 /* music player playPauseButton */
-.playPauseBtn {
-    background-color: Transparent;
-    background-repeat:no-repeat;
+#playPauseBtn {
+    background: none;
     border: none;
-    cursor:pointer;
-    overflow: hidden; 
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    outline: none; 
+    margin-bottom: 2rem;
+}
+
+.rate-button {
+    background: none
 }
