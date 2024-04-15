@@ -4,6 +4,11 @@ import os, uuid
 
 valid_genres = ['Rock','Folk', 'Blues', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'SoulRB', 'Classical', 'Instrumental', 'Electronic', 'Experimental', 'International', 'Spoken']
 
+@app.route('/')
+def index():
+    redirect_index = redirect(url_for('genre'))
+    return redirect_index
+
 @app.route('/genre', methods=['GET', 'POST'])
 def genre():
     title = 'Music Player | Preferences'
