@@ -1,6 +1,5 @@
 from app import db
 import datetime
-from flask import session
 
 class Session(db.Model):
     __tablename__ = 'session'
