@@ -56,3 +56,12 @@ def user_ratings(valid_genres):
     print("Normalized:", normalized_ratings_impact_genre)
     session['ratings_impact_genre_normalized'] = normalized_ratings_impact_genre
 
+    # Discovered genres mapping to weights after rating impact
+    selected_genres = session['selected_genres']
+
+    gained_weight_indices = [i for i, weight in enumerate(normalized_ratings_impact_genre) if weight > 0]
+    gained_weight_genres = [valid_genres[i] for i in gained_weight_indices]
+
+    discovered_genres = [genre for genre in gained_weight_genres if genre not in selected_genres]
+    session['discovered_genres'] = discovered_genres
+

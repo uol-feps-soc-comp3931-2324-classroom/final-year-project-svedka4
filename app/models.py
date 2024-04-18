@@ -1,5 +1,5 @@
 from app import db
-import datetime
+import datetime, json
 
 class Session(db.Model):
     __tablename__ = 'session'
@@ -9,15 +9,19 @@ class Session(db.Model):
     mood_chosen = db.Column(db.String)
     mood_shift = db.Column(db.String)
     discovered_genres = db.Column(db.String)
+    
+    @staticmethod
+    def session_exists(user_session_id):
+        return Session.query.filter_by(user_session_id=user_session_id).first() is not None
 
     @staticmethod
     def create_session(user_session_id, liked_genres, mood_chosen, mood_shift, discovered_genres):
         session_instance = Session(
             user_session_id=user_session_id,
-            liked_genres=liked_genres,
-            mood_chosen=mood_chosen,
-            mood_shift=mood_shift,
-            discovered_genres=discovered_genres
+            liked_genres=json.dumps(liked_genres),  # Convert list to JSON string
+            mood_chosen=json.dumps(mood_chosen),    # Convert tuple to JSON string
+            mood_shift=json.dumps(mood_shift),      # Convert tuple to JSON string
+            discovered_genres=json.dumps(discovered_genres)
         )
         db.session.add(session_instance)
         db.session.commit()
@@ -37,8 +41,8 @@ class Ratings(db.Model):
     def create_rating(song_id, mood_shift, discovered_genres, user_rating, user_session_id):
         rating_instance = Ratings(
             song_id=song_id,
-            mood_shift=mood_shift,
-            discovered_genres=discovered_genres,
+            mood_shift=json.dumps(mood_shift),  # Convert tuple to JSON string
+            discovered_genres=json.dumps(discovered_genres),  # Convert list to JSON string
             user_rating=user_rating,
             user_session_id=user_session_id
         )

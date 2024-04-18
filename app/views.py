@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from app import app, recommender, ratings, mood_calc, models
-import os, uuid
+import os, uuid, json
 
 valid_genres = ['Rock','Folk', 'Blues', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'SoulRB', 'Classical', 'Instrumental', 'Electronic', 'Experimental', 'International', 'Spoken']
 
@@ -85,12 +85,21 @@ def submit_ratings():
     song_id = session['curr_song_info']['song_id']
     mood_shift_after_rating = session['users_mood_after_each_rating']
     user_rating = session['rating']
+
     liked_genres = session['selected_genres']
     mood_chosen = session['users_mood']
-    final_mood_shift = session['final_users_mood']
-    # discovered_genres = session['']
+    final_mood_shift = session['final_user_mood']
+    discovered_genres = session['discovered_genres']
 
-    models.Session.create_session(user_session_id, liked_genres, mood_chosen, final_mood_shift, discovered_genres)
+    # convert lists to JSON
+    liked_genres_json = json.dumps(liked_genres)
+    mood_chosen_json = json.dumps(mood_chosen)
+    final_mood_shift_json = json.dumps(final_mood_shift)
+    discovered_genres_json = json.dumps(discovered_genres)
+
+    if not models.Session.session_exists(user_session_id):
+        models.Session.create_session(user_session_id, liked_genres, mood_chosen, final_mood_shift, discovered_genres)
+    
     models.Ratings.create_rating(song_id, mood_shift_after_rating, discovered_genres, user_rating, user_session_id)
     
     return redirect(url_for('player'))
