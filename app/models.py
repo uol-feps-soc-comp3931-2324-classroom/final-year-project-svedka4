@@ -9,7 +9,7 @@ class Session(db.Model):
     mood_chosen = db.Column(db.String)
     mood_shift = db.Column(db.String)
     discovered_genres = db.Column(db.String)
-    
+
     @staticmethod
     def session_exists(user_session_id):
         return Session.query.filter_by(user_session_id=user_session_id).first() is not None
@@ -33,16 +33,18 @@ class Ratings(db.Model):
     song_id = db.Column(db.String, primary_key=True)
     mood_shift = db.Column(db.String)
     discovered_genres = db.Column(db.String)
+    serendipity_rating = db.Column(db.String)
     user_rating = db.Column(db.String)
     user_session_id = db.Column(db.String, db.ForeignKey('session'), primary_key=True)
     session = db.relationship('Session', backref='ratings')
 
     @staticmethod
-    def create_rating(song_id, mood_shift, discovered_genres, user_rating, user_session_id):
+    def create_rating(song_id, mood_shift, discovered_genres, serendipity_rating, user_rating, user_session_id):
         rating_instance = Ratings(
             song_id=song_id,
             mood_shift=json.dumps(mood_shift),  # Convert tuple to JSON string
             discovered_genres=json.dumps(discovered_genres),  # Convert list to JSON string
+            serendipity_rating=serendipity_rating,
             user_rating=user_rating,
             user_session_id=user_session_id
         )

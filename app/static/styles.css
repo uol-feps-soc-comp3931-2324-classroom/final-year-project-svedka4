@@ -43,6 +43,10 @@ input[type="checkbox" i] {
     accent-color: blueviolet;
     transform: scale(2);
 }
+input[type="radio" i] {
+    accent-color: blueviolet;
+    transform: scale(2);
+}
 label {
     font-size: 1.5rem;
     padding-left: 1rem;
@@ -70,7 +74,7 @@ margin-top: 7rem; /* More margin between the slider and the icons */
 }
 
 .music-player-block {
-margin-top: 25rem; /* More margin between the slider and the icons */
+margin-top: 15rem; /* More margin between the slider and the icons */
 }
 
 /* progress bar */

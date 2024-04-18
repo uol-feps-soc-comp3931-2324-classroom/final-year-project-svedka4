@@ -7,7 +7,18 @@
         </div>
         
         <form id="ratingForm" action="{{ url_for('submit_ratings') }}" method="post">
-            <div class="icon-container">
+            <div class="serendipity-survey" class="d-flex flex-row justify-content-around">
+                <div style="display: inline; padding-right:5rem;">
+                    <input type="radio" name="rating_type" value="yes" onchange="showRatingButtons()">
+                    <label for="rating_never_listen">Something I would never listen to normally</label>
+                </div>
+                <div style="display: inline;">
+                    <input type="radio" name="rating_type" value="no" onchange="showRatingButtons()">
+                    <label for="rating_listen_normal">Exactly what I listen to normally</label>
+                </div>
+            </div>
+
+            <div class="icon-container" style="display: none;">
                 <button type="submit" name="rating" value="love" class="rate-button"><img src="{{ url_for('static', filename='assets/img/love.svg') }}" alt="extatic face"></button>
                 <button type="submit" name="rating" value="like" class="rate-button"><img src="{{ url_for('static', filename='assets/img/happy.svg') }}" alt="smiling face"></button>
                 <button type="submit" name="rating" value="neutral" class="rate-button"><img src="{{ url_for('static', filename='assets/img/neutral.svg') }}" alt="neutral face"></button>
@@ -37,7 +48,7 @@
     </div>
 
     <script>
-        // Function to toggle play/pause
+        // Toggle play/pause
         function togglePlayPause() {
             var audioPlayer = document.getElementById('audioPlayer');
             var playIcon = document.getElementById('playIcon');
@@ -53,6 +64,20 @@
                 pauseIcon.style.display = 'none';
             }
         }
+
+        function showRatingButtons() {
+            var radios = document.querySelectorAll('input[type="radio"]');
+            var iconContainer = document.querySelector('.icon-container');
+
+            for (var i = 0; i< radios.length; i++) {
+                if (radios[i].checked) {
+                    iconContainer.style.display = 'flex';
+                    return;
+                }
+            }
+            iconContainer.style.display = 'none';
+        }
+
         
         // Function to play a random audio file after a delay seconds
         document.addEventListener('DOMContentLoaded', function() {

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="margin: 0 auto;">
+
+    <div class="text-block" style="margin-bottom: 2rem; margin-top: -12rem;">
+        <h1 style="font-size: 42px; font-weight: 900; margin-bottom: 2rem;">YOU'RE ABOUT TO ENTER AN EXPERIMENT</h1>
+        <h3 style="font-size: 32px; font-weight: 900;">PLEASE TICK <span style="color: gold;">'I CONSENT'</span> IF YOU AGREE TO PARTICIPATE</h3>
+    </div>
+
+    <div style="max-width:100%;width:100%;height:50vh" class="text-start">
+        <h4>Consent Form for Data Collection</h1>
+        <h5>Research Title: Using Emotion to Enhance Serendipity in Music Recommender Systems</h3>
+        <p>You are being invited to participate in a research study. Before you decide, it is important for you to understand why the research is being done and what it will involve. Please take the time to read the following information carefully. Feel free to ask any questions if something is unclear.</p>
+        <p>The purpose of this study is to collect data from users interacting with our prototype for research purposes. Specifically, we aim to investigate how incorporating emotions can enhance serendipity in music recommender systems. The data collected will be used to improve the prototype and may also be used for academic publications or presentations.</p>
+        <p>During your interaction with the prototype, various forms of data may be collected, including but not limited to:
+            <ul>
+                <li>User Inputs</li>
+                <li>Timestamps of interactions</li>
+                <li>Interaction patterns</li>
+                <li>Emotional responses to music selections</li>
+                <li>User preferences</li>
+            </ul>
+        </p>
+        <p>Your identity will be anonymised, and any generated data collected from the session will be securely stored and only accessible to the research team. No individual participant will be identifiable in any reports or publications resulting from this research. Participation in this study is entirely voluntary. You are free to withdraw at any time.</p>
+        <p>There are no direct benefits to you for participating in this study. However, your participation will contribute to my undergratuade paper and the advancement of knowledge in the field of music recommendation systems. If you have any questions about this study or your rights as a participant, please contact Gabija Švedkauskaitė at gabija.svedkauskaite@gmail.com with subject <span style="font-style: italic;">[RESEARCH]</span></p>
+        <p style="margin-bottom: 1rem;">By continuing with your interaction with the prototype, you indicate that you have read and understood the information provided in this consent form. You voluntarily agree to participate in this study and consent to the collection and use of your data as described above.</p>
+        <a href="{{ url_for('genre') }}" style="font-size: 32px; font-weight: 900; color: gold; margin-top: 2rem;" class="text-end">I CONSENT</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+   
+</script>
+{% endblock %}

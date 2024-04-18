@@ -6,8 +6,8 @@ valid_genres = ['Rock','Folk', 'Blues', 'Pop', 'Country', 'Hip-hop', 'Jazz', 'So
 
 @app.route('/')
 def index():
-    redirect_index = redirect(url_for('genre'))
-    return redirect_index
+    title = 'Consent Form for Research'
+    return render_template('consent.html', title=title)
 
 @app.route('/genre', methods=['GET', 'POST'])
 def genre():
@@ -73,18 +73,20 @@ def player():
 
 @app.route('/submit_ratings', methods=['POST'])
 def submit_ratings():
-    rating = request.form['rating']
+    serendipity_rating = request.form['rating_type']
+    session['serendipity_rating'] = serendipity_rating
 
+    rating = request.form['rating']
     session['rating'] = rating
     ratings.user_ratings(valid_genres)
-
-
 
     # Store in the database
     user_session_id = session['user_session_id']
     song_id = session['curr_song_info']['song_id']
     mood_shift_after_rating = session['users_mood_after_each_rating']
+    user_serendipity_rating = session['serendipity_rating']
     user_rating = session['rating']
+
 
     liked_genres = session['selected_genres']
     mood_chosen = session['users_mood']
@@ -100,6 +102,6 @@ def submit_ratings():
     if not models.Session.session_exists(user_session_id):
         models.Session.create_session(user_session_id, liked_genres, mood_chosen, final_mood_shift, discovered_genres)
     
-    models.Ratings.create_rating(song_id, mood_shift_after_rating, discovered_genres, user_rating, user_session_id)
+    models.Ratings.create_rating(song_id, mood_shift_after_rating, discovered_genres, user_serendipity_rating, user_rating, user_session_id)
     
     return redirect(url_for('player'))
