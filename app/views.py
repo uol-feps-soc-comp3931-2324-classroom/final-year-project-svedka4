@@ -14,11 +14,13 @@ def genre():
     title = 'Music Player | Preferences'
 
     session['user_session_id'] = str(uuid.uuid4()) # user_session_id for Session model
+    session['played_songs'] = {} # played_songs
+
     
     if request.method == 'POST':
         selected_genres = request.form.getlist('genre')
         session['selected_genres'] = selected_genres # liked_genres for Session model
-        
+
         # Genre
         user_selected_weights = []
 
@@ -94,14 +96,14 @@ def submit_ratings():
     discovered_genres = session['discovered_genres']
 
     # convert lists to JSON
-    liked_genres_json = json.dumps(liked_genres)
-    mood_chosen_json = json.dumps(mood_chosen)
-    final_mood_shift_json = json.dumps(final_mood_shift)
-    discovered_genres_json = json.dumps(discovered_genres)
+    # liked_genres_json = json.dumps(liked_genres)
+    # mood_chosen_json = json.dumps(mood_chosen)
+    # final_mood_shift_json = json.dumps(final_mood_shift)
+    # discovered_genres_json = json.dumps(discovered_genres)
 
     if not models.Session.session_exists(user_session_id):
         models.Session.create_session(user_session_id, liked_genres, mood_chosen, final_mood_shift, discovered_genres)
     
-    models.Ratings.create_rating(song_id, mood_shift_after_rating, discovered_genres, user_serendipity_rating, user_rating, user_session_id)
+    models.Ratings.create_rating(user_session_id, song_id, mood_shift_after_rating, discovered_genres, user_serendipity_rating, user_rating)
     
     return redirect(url_for('player'))

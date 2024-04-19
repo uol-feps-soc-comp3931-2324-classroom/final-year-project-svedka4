@@ -7,8 +7,6 @@ csv_file = 'app/static/assets/dataset.csv'
 
 song_info = {}
 
-played_songs = {}
-
 def read_csv():
     with open(csv_file, 'r') as f:
         reader = csv.reader(f)
@@ -57,7 +55,6 @@ def recommend_song(audio_files, valid_genres):
     if song_info == {}:
         read_csv()
 
-    
     user_selected_weights = session['ratings_impact_genre_normalized']
 
     found_song = False
@@ -74,7 +71,7 @@ def recommend_song(audio_files, valid_genres):
         filtered_genre_audio_files = [] 
         
         for file in audio_files:         
-            if picked_genre == song_info[file[:-4]]['main_genre'] and file not in played_songs:
+            if picked_genre == song_info[file[:-4]]['main_genre'] and file not in session['played_songs']:
                 filtered_genre_audio_files.append(file)
 
         users_mood = session['ratings_impact_mood']
@@ -94,8 +91,8 @@ def recommend_song(audio_files, valid_genres):
                 accurate_recommendation = random.choice(filtered_mood_audio_files)
                 break
 
-
-        played_songs[accurate_recommendation] = True
+    print('Session played songs:', session['played_songs'])
+    session['played_songs'][accurate_recommendation] = True
 
     return accurate_recommendation, song_info[accurate_recommendation[:-4]]
 

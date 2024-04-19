@@ -30,23 +30,23 @@ class Ratings(db.Model):
     __tablename__ = 'ratings'
 
     current_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    user_session_id = db.Column(db.String, db.ForeignKey('session'), primary_key=True)
     song_id = db.Column(db.String, primary_key=True)
     mood_shift = db.Column(db.String)
     discovered_genres = db.Column(db.String)
     serendipity_rating = db.Column(db.String)
     user_rating = db.Column(db.String)
-    user_session_id = db.Column(db.String, db.ForeignKey('session'), primary_key=True)
     session = db.relationship('Session', backref='ratings')
 
     @staticmethod
-    def create_rating(song_id, mood_shift, discovered_genres, serendipity_rating, user_rating, user_session_id):
+    def create_rating(user_session_id, song_id, mood_shift, discovered_genres, serendipity_rating, user_rating):
         rating_instance = Ratings(
+            user_session_id=user_session_id,
             song_id=song_id,
             mood_shift=json.dumps(mood_shift),  # Convert tuple to JSON string
             discovered_genres=json.dumps(discovered_genres),  # Convert list to JSON string
             serendipity_rating=serendipity_rating,
-            user_rating=user_rating,
-            user_session_id=user_session_id
+            user_rating=user_rating
         )
         db.session.add(rating_instance)
         db.session.commit()
